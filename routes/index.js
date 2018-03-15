@@ -18,12 +18,11 @@ mongoose.connect('mongodb://choisieversaire:aaa@ds211289.mlab.com:11289/cvr',
 
    // user base de donnée
 var userSchema = mongoose.Schema({
-  firstName: String,
-  lastName: String,
-  email: String,
+  userName: String,
+  phone: Number,
   password: String,
   jourN: Number,
-  MoisN: Number,
+  MoisN: String,
   anneN: Number
 });
 var UserModel = mongoose.model('users', userSchema);
@@ -31,14 +30,13 @@ var UserModel = mongoose.model('users', userSchema);
 router.post('/signUp', function(req, res, next) {
 
 UserModel.find(
- {email: req.body.email},
+ {phone: req.body.phone},
  function(err, users) {
    if (users.length == 0) {
 
      var newUser = new UserModel({
-       firstName: req.body.firstName,
-       lastName: req.body.lastName,
-       email: req.body.email,
+       userName: req.body.userName,
+       phone: req.body.phone,
        password: req.body.password,
        jourN: req.body.jourN,
        MoisN: req.body.MoisN,
@@ -55,9 +53,9 @@ res.send('sign up done ! well done');
 });
 // ************************** Login ********************************
 router.get('/signin', function(req, res, next) {
-  console.log("on est ici", req.query.email);
+  console.log("on est ici", req.query.phone);
   UserModel.findOne({
-    email: req.query.email,
+    phone: req.query.phone,
     password: req.query.password
   }).then((user, error) => {
     console.log("on est au signin", UserModel)
