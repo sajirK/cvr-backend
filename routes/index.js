@@ -4,7 +4,7 @@ var  fileUpload = require('express-fileupload');
 
 var http = require('http').Server(router);
 var io = require('socket.io')(http);
-var port = process.env.PORT || 3001;
+var port = process.env.PORT+1 || 3001;
 
 var mongoose = require('mongoose');
 var options = {
