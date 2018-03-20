@@ -28,7 +28,7 @@ var userSchema = mongoose.Schema({
 var UserModel = mongoose.model('users', userSchema);
    // **************** Signup ****************$
 router.post('/signUp', function(req, res, next) {
-
+console.log("ok signUp");
 UserModel.find(
  {phone: req.body.phone},
  function(err, users) {
@@ -38,15 +38,14 @@ UserModel.find(
        userName: req.body.userName,
        phone: req.body.phone,
        password: req.body.password,
-       jourN: req.body.jourN,
-       MoisN: req.body.MoisN,
-       anneN: req.body.anneN
+       jourN: req.body.day,
+       MoisN: req.body.month,
+       anneN: req.body.year
      });
 
      newUser.save(
        function(error, user) {
-
-       res.send('sign up done ! well done');
+         res.send(user);
      })
     }
   })
@@ -54,8 +53,6 @@ UserModel.find(
 
 var UserModel = mongoose.model('users', userSchema);
 
-
-});
 // ************************** Login ********************************
 router.get('/signin', function(req, res, next) {
   console.log("on est ici", req.query.phone);
