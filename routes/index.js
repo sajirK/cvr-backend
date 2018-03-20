@@ -50,10 +50,9 @@ UserModel.find(
        MoisN: req.body.month,
        anneN: req.body.year
      });
-
-     newUser.save(
+        newUser.save(
        function(error, user) {
-         res.send(user);
+         res.send("ok");
      })
     }
   })
