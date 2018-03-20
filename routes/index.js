@@ -74,7 +74,7 @@ router.get('/signin', function(req, res, next) {
 })
 
 router.get('/', function(req, res){
-  res.sendFile(__dirname + '/index.html');
+  res.send("ok1");
 });
 
 io.on('connection', function(socket){
