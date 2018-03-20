@@ -1,11 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var  fileUpload = require('express-fileupload');
-
-var http = require('http').Server(router);
-var io = require('socket.io')(http);
-var port = process.env.PORT+1 || 3001;
-
 var mongoose = require('mongoose');
 var options = {
   server: {
@@ -76,18 +71,5 @@ router.get('/signin', function(req, res, next) {
 router.get('/', function(req, res){
   res.send("ok1");
 });
-
-io.on('connection', function(socket){
-  console.log('connection');
-  socket.on('chat message', function(msg){
-    console.log("Iron fist")
-    io.emit('chat message');
-  });
-});
-
-http.listen(port, function(){
-  console.log('listening on *:' + port);
-});
-
 
 module.exports = router;
