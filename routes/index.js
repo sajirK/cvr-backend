@@ -25,8 +25,6 @@ var userSchema = mongoose.Schema({
   jourN: Number,
   MoisN: Number,
   anneN: Number
-
-
 });
    // **************** Signup ****************$
 router.post('/signUp', function(req, res, next) {
@@ -48,24 +46,11 @@ UserModel.find(
 
      newUser.save(
        function(error, user) {
-
-         // req.session.IsLog = true;
-
-res.send('sign up done ! well done');
-                     }
-                   )
-                     }
-               }
-             )
-
-
-           }
-           );
-
-
-
-
-
+       res.send('sign up done ! well done');
+     })
+    }
+  })
+});
 
 var UserModel = mongoose.model('users', userSchema);
 
