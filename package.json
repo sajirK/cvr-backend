@@ -5,10 +5,6 @@
   "scripts": {
     "start": "node ./bin/www"
   },
-  "engines": {
-    "node": "8.9.4",
-    "npm": "5.6.0"
-  },
   "dependencies": {
     "body-parser": "~1.18.2",
     "cookie-parser": "~1.4.3",
@@ -19,6 +15,7 @@
     "express-session": "^1.15.6",
     "mongoose": "^5.0.9",
     "morgan": "~1.9.0",
+    "npm": "^5.7.1",
     "serve-favicon": "~2.4.5",
     "socket.io": "^2.0.4"
   }
