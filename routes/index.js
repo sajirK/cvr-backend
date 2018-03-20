@@ -66,7 +66,7 @@ var UserModel = mongoose.model('users', userSchema);
 router.get('/signin', function(req, res, next) {
   console.log("on est ici", req.query.phone);
   UserModel.findOne({
-    phone: req.query.phone,
+    userName: req.query.userName,
     password: req.query.password
   }).then((user, error) => {
     console.log("on est au signin", UserModel)
