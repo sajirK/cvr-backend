@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var session = require("express-session");
 var  fileUpload = require('express-fileupload');
 var mongoose = require('mongoose');
 var options = {
@@ -62,5 +63,35 @@ router.get('/signin', function(req, res, next) {
     res.json(user);
   })
 })
+
+// **************************** Save Profile Changes ****************************
+
+
+router.post('/update', function(req, res, next) {
+  if(req.body.userName.length > 0 &&
+     req.body.phone.length > 0 &&
+      req.body.password.length > 0 &&
+      req.body.jourN.length > 0 &&
+      req.body.MoisN.length > 0 &&
+      req.body.anneN.length > 0 &&
+){
+  UserModel.update({_id: req.session.user._id},
+    {userName: req.body.userName,
+    phone: req.body.phone,
+    password: req.body.password,
+    jourN: req.body.jourN,
+    MoisN: req.body.MoisN,
+    anneN:req.body.anneN
+    },
+      function(err, user){
+        var userIdTmp = req.session.user._id;
+        req.session.user = req.body;
+         req.session.user._id = userIdTmp;
+          res.json(user);  }
+  );
+ } else{
+   res.send('update cant be done !');
+ }
+});
 
 module.exports = router;
