@@ -42,8 +42,8 @@ function formatPhone(phoneNumber) {
   if ( !phoneNumber.match(/^33/)  ) {
     phoneNumber = pfx+phoneNumber;
   }
-  console.log(phoneNumber);
 }
+console.log(phoneNumber);
 UserModel.find(
  {phone: phoneNumber},
  function(err, users) {
@@ -59,7 +59,7 @@ UserModel.find(
      });
         newUser.save(
        function(error, user) {
-         res.send("ok");
+         res.send(user);
      })
     }
   })
@@ -82,13 +82,27 @@ router.post('/signIn', function(req, res, next) {
 
 router.post('/friends', function(req, res, next) {
   console.log(req.body.contacts);
-  // UserModel.find({
-  //   userName: req.query.userName,
-  //   password: req.query.password
-  // }).then((user, error) => {
-  //   console.log("on est au signin", UserModel)
-  //   res.json(user);
-  // })
+  var listContact = [];
+  for (var i = 0; i < req.body.contacts.length; i++) {
+    var phoneNumber = req.body.contacts[i]
+    function formatPhone(phoneNumber) {
+      phoneNumber = phoneNumber.replace(/\([0-9]+?\)/, "");
+      phoneNumber = phoneNumber.replace(/[^0-9]/, "");
+      phoneNumber = phoneNumber.replace(/\s+/i, "")
+      phoneNumber = phoneNumber.replace(/^0+/, '');
+      var pfx = "33";
+      if ( !phoneNumber.match(/^33/)  ) {
+        phoneNumber = pfx+phoneNumber;
+      }
+      listContact.push(phoneNumber)
+      console.log(phoneNumber)
+    }
+    UserModel.find({phone: phoneNumber},
+      function (error, users) {
+      console.log(users);
+      res.json(users);
+    })
+  }
 })
 
 router.get('/', function(req, res){
