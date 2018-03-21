@@ -64,7 +64,7 @@ UserModel.find(
      })
     }
   })
-});
+})
 
 var UserModel = mongoose.model('users', userSchema);
 
@@ -91,7 +91,7 @@ router.post('/update', function(req, res, next) {
       req.body.password.length > 0 &&
       req.body.jourN.length > 0 &&
       req.body.MoisN.length > 0 &&
-      req.body.anneN.length > 0 &&
+      req.body.anneN.length > 0
 ){
   UserModel.update({_id: req.session.user._id},
     {userName: req.body.userName,
@@ -110,6 +110,7 @@ router.post('/update', function(req, res, next) {
  } else{
    res.send('update cant be done !');
  }
+})
 
 router.post('/friends', function(req, res, next) {
   console.log(req.body.contacts);
@@ -139,6 +140,6 @@ router.post('/friends', function(req, res, next) {
 router.get('/', function(req, res){
   res.send("ok1");
 
-});
+})
 
 module.exports = router;
