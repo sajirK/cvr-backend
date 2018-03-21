@@ -63,7 +63,7 @@ UserModel.find(
      })
     }
   })
-});
+})
 
 var UserModel = mongoose.model('users', userSchema);
 
@@ -79,6 +79,7 @@ router.post('/signIn', function(req, res, next) {
     res.json(users);
   })
 })
+
 
 
 router.post('/friends', function(req, res, next) {
@@ -109,6 +110,6 @@ router.post('/friends', function(req, res, next) {
 router.get('/', function(req, res){
   res.send("ok1");
 
-});
+})
 
 module.exports = router;
