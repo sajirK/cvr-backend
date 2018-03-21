@@ -58,17 +58,16 @@ var UserModel = mongoose.model('users', userSchema);
 // ************************** Login ********************************
 
 router.post('/signIn', function(req, res, next) {
-  console.log("on est ici", req.query.phone);
+  console.log("on est ici", req.query.userName);
   UserModel.findOne({
     userName: req.query.userName,
     password: req.query.password
   }).then((error, user) => {
-    console.log("on est au signin", UserModel)
     res.json(user);
   })
 })
 
-router.get('/friends', function(req, res, next) {
+router.post('/friends', function(req, res, next) {
   console.log(req.body);
   // UserModel.find({
   //   userName: req.query.userName,
