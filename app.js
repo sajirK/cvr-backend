@@ -48,8 +48,8 @@ app.use(function(req, res, next) {
 io.on('connection', function(socket){
   console.log('connection');
   socket.on('chat message', function(msg){
-    console.log("Iron fist")
-    io.emit('chat message');
+    console.log(msg)
+    io.emit('chat message', msg);
   });
 });
 
