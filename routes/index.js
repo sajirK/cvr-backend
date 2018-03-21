@@ -61,10 +61,10 @@ router.post('/signIn', function(req, res, next) {
   console.log("on est ici", req.body.userName);
   UserModel.find({
     userName: req.body.userName,
-    password: req.body.password
-  }).then((error, user) => {
-    console.log(user);
-    res.json(user);
+    password: req.body.password},
+    function (error, users) {
+    console.log(users);
+    res.json(users);
   })
 })
 
