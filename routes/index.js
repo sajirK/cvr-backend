@@ -32,14 +32,26 @@ var UserModel = mongoose.model('users', userSchema);
 
 router.post('/signUp', function(req, res, next) {
 console.log("ok signUp");
+var phoneNumber = req.body.phone
+function formatPhone(phoneNumber) {
+  phoneNumber = phoneNumber.replace(/\([0-9]+?\)/, "");
+  phoneNumber = phoneNumber.replace(/[^0-9]/, "");
+  phoneNumber = phoneNumber.replace(/\s+/i, "")
+  phoneNumber = phoneNumber.replace(/^0+/, '');
+  var pfx = "33";
+  if ( !phoneNumber.match(/^33/)  ) {
+    phoneNumber = pfx+phoneNumber;
+  }
+  console.log(phoneNumber);
+}
 UserModel.find(
- {phone: req.body.phone},
+ {phone: phoneNumber},
  function(err, users) {
    if (users.length == 0) {
 
      var newUser = new UserModel({
        userName: req.body.userName,
-       phone: req.body.phone,
+       phone: phoneNumber,
        password: req.body.password,
        jourN: req.body.day,
        MoisN: req.body.month,
