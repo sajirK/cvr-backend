@@ -9,6 +9,7 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
+
 app.use(
  session({
   secret: 'a4f8071f-c873-4447-8ee2',
@@ -16,6 +17,11 @@ app.use(
   saveUninitialized: false,
  })
 );
+
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
+
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -37,6 +43,16 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
+
+//chat with socket
+io.on('connection', function(socket){
+  console.log('connection');
+  socket.on('chat message', function(msg){
+    console.log("Iron fist")
+    io.emit('chat message');
+  });
+});
+
 
 // error handler
 app.use(function(err, req, res, next) {

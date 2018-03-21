@@ -18,6 +18,7 @@ mongoose.connect('mongodb://choisieversaire:aaa@ds211289.mlab.com:11289/cvr',
 );
 
    // user base de donnée
+
 var userSchema = mongoose.Schema({
   userName: String,
   phone: Number,
@@ -27,42 +28,59 @@ var userSchema = mongoose.Schema({
   anneN: Number
 });
 var UserModel = mongoose.model('users', userSchema);
-   // **************** Signup ****************$
-router.post('/signUp', function(req, res, next) {
 
+   // **************** Signup ****************$
+
+router.post('/signUp', function(req, res, next) {
+console.log("ok signUp");
+var phoneNumber = req.body.phone
+function formatPhone(phoneNumber) {
+  phoneNumber = phoneNumber.replace(/\([0-9]+?\)/, "");
+  phoneNumber = phoneNumber.replace(/[^0-9]/, "");
+  phoneNumber = phoneNumber.replace(/\s+/i, "")
+  phoneNumber = phoneNumber.replace(/^0+/, '');
+  var pfx = "33";
+  if ( !phoneNumber.match(/^33/)  ) {
+    phoneNumber = pfx+phoneNumber;
+  }
+}
+console.log(phoneNumber);
 UserModel.find(
- {phone: req.body.phone},
+ {phone: phoneNumber},
  function(err, users) {
    if (users.length == 0) {
 
      var newUser = new UserModel({
        userName: req.body.userName,
-       phone: req.body.phone,
+       phone: phoneNumber,
        password: req.body.password,
-       jourN: req.body.jourN,
-       MoisN: req.body.MoisN,
-       anneN: req.body.anneN
+       jourN: req.body.day,
+       MoisN: req.body.month,
+       anneN: req.body.year
      });
-
-     newUser.save(
+        newUser.save(
        function(error, user) {
-res.send('sign up done ! well done');
-            })
-}
-})
-
+         res.send(user);
+     })
+    }
+  })
 });
+
+var UserModel = mongoose.model('users', userSchema);
+
 // ************************** Login ********************************
-router.get('/signin', function(req, res, next) {
-  console.log("on est ici", req.query.phone);
-  UserModel.findOne({
-    phone: req.query.phone,
-    password: req.query.password
-  }).then((user, error) => {
-    console.log("on est au signin", UserModel)
-    res.json(user);
+
+router.post('/signIn', function(req, res, next) {
+  console.log("on est ici", req.body.userName);
+  UserModel.find({
+    userName: req.body.userName,
+    password: req.body.password},
+    function (error, users) {
+    console.log(users);
+    res.json(users);
   })
 })
+
 
 // **************************** Save Profile Changes ****************************
 
@@ -92,6 +110,35 @@ router.post('/update', function(req, res, next) {
  } else{
    res.send('update cant be done !');
  }
+
+router.post('/friends', function(req, res, next) {
+  console.log(req.body.contacts);
+  var listContact = [];
+  for (var i = 0; i < req.body.contacts.length; i++) {
+    var phoneNumber = req.body.contacts[i]
+    function formatPhone(phoneNumber) {
+      phoneNumber = phoneNumber.replace(/\([0-9]+?\)/, "");
+      phoneNumber = phoneNumber.replace(/[^0-9]/, "");
+      phoneNumber = phoneNumber.replace(/\s+/i, "")
+      phoneNumber = phoneNumber.replace(/^0+/, '');
+      var pfx = "33";
+      if ( !phoneNumber.match(/^33/)  ) {
+        phoneNumber = pfx+phoneNumber;
+      }
+      listContact.push(phoneNumber)
+      console.log(phoneNumber)
+    }
+    UserModel.find({phone: phoneNumber},
+      function (error, users) {
+      console.log(users);
+      res.json(users);
+    })
+  }
+})
+
+router.get('/', function(req, res){
+  res.send("ok1");
+
 });
 
 module.exports = router;
