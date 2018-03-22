@@ -32,26 +32,26 @@ var UserModel = mongoose.model('users', userSchema);
 
 router.post('/signUp', function(req, res, next) {
 console.log("ok signUp");
-var phoneNumber = req.body.phone
-function formatPhone(phoneNumber) {
-  phoneNumber = phoneNumber.replace(/\([0-9]+?\)/, "");
-  phoneNumber = phoneNumber.replace(/[^0-9]/, "");
-  phoneNumber = phoneNumber.replace(/\s+/i, "")
-  phoneNumber = phoneNumber.replace(/^0+/, '');
-  var pfx = "33";
-  if ( !phoneNumber.match(/^33/)  ) {
-    phoneNumber = pfx+phoneNumber;
-  }
-}
-console.log(phoneNumber);
+// var phoneNumber = req.body.phone
+// function formatPhone(phoneNumber) {
+//   phoneNumber = phoneNumber.replace(/\([0-9]+?\)/, "");
+//   phoneNumber = phoneNumber.replace(/[^0-9]/, "");
+//   phoneNumber = phoneNumber.replace(/\s+/i, "")
+//   phoneNumber = phoneNumber.replace(/^0+/, '');
+//   var pfx = "33";
+//   if ( !phoneNumber.match(/^33/)  ) {
+//     phoneNumber = pfx+phoneNumber;
+//   }
+// }
+// console.log(phoneNumber);
 UserModel.find(
- {phone: phoneNumber},
+ {phone: req.body.phone},
  function(err, users) {
    if (users.length == 0) {
 
      var newUser = new UserModel({
        userName: req.body.userName,
-       phone: phoneNumber,
+       phone: req.body.phone,
        password: req.body.password,
        jourN: req.body.day,
        MoisN: req.body.month,
@@ -59,7 +59,7 @@ UserModel.find(
      });
         newUser.save(
        function(error, user) {
-         res.send(user);
+         res.json(user);
      })
     }
   })
@@ -81,30 +81,30 @@ router.post('/signIn', function(req, res, next) {
 })
 
 
-router.post('/friends', function(req, res, next) {
-  // console.log(req.body.contacts);
-  var listContact = [];
-  for (var i = 0; i < req.body.contacts.length; i++) {
-    var phoneNumber = req.body.contacts[i]
-    function formatPhone(phoneNumber) {
-      phoneNumber = phoneNumber.replace(/\([0-9]+?\)/, "");
-      phoneNumber = phoneNumber.replace(/[^0-9]/, "");
-      phoneNumber = phoneNumber.replace(/\s+/i, "")
-      phoneNumber = phoneNumber.replace(/^0+/, '');
-      var pfx = "33";
-      if ( !phoneNumber.match(/^33/)  ) {
-        phoneNumber = pfx+phoneNumber;
-      }
-      listContact.push(phoneNumber)
-      console.log("la listContact", listContact)
-    }
-    UserModel.find({phone: phoneNumber},
-      function (error, users) {
-      console.log("les users", users);
-      res.json(users);
-    })
-  }
-})
+// router.post('/friends', function(req, res, next) {
+//   // console.log(req.body.contacts);
+//   var listContact = [];
+//   for (var i = 0; i < req.body.contacts.length; i++) {
+//     var phoneNumber = req.body.contacts[i]
+//     function formatPhone(phoneNumber) {
+//       phoneNumber = phoneNumber.replace(/\([0-9]+?\)/, "");
+//       phoneNumber = phoneNumber.replace(/[^0-9]/, "");
+//       phoneNumber = phoneNumber.replace(/\s+/i, "")
+//       phoneNumber = phoneNumber.replace(/^0+/, '');
+//       var pfx = "33";
+//       if ( !phoneNumber.match(/^33/)  ) {
+//         phoneNumber = pfx+phoneNumber;
+//       }
+//       listContact.push(phoneNumber)
+//       console.log("la listContact", listContact)
+//     }
+//     UserModel.find({phone: phoneNumber},
+//       function (error, users) {
+//       console.log("les users", users);
+//       res.json(users);
+//     })
+//   }
+// })
 
 router.get('/', function(req, res){
   res.send("ok1");
