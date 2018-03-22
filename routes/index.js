@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var session = require("express-session");
 var  fileUpload = require('express-fileupload');
 var mongoose = require('mongoose');
 var options = {
@@ -64,7 +63,7 @@ UserModel.find(
      })
     }
   })
-});
+})
 
 var UserModel = mongoose.model('users', userSchema);
 
@@ -110,6 +109,6 @@ router.post('/friends', function(req, res, next) {
 router.get('/', function(req, res){
   res.send("ok1");
 
-});
+})
 
 module.exports = router;
